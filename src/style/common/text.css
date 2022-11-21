@@ -1,0 +1,15 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .highlight {
+    @apply text-xl font-bold;
+  }
+
+  .talk {
+    @apply text-2xl
+  }
+
+  .caption {
+    @apply text-base;
+  }
+}

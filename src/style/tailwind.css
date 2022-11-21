@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Gen Jyuu Gothic P';
+    src: url('../assets/font/GenJyuuGothic-P.ttf') format('truetype');
+  }
+
+  html {
+    font-family: Gen Jyuu Gothic P;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-xl;
+  }
+
+  h2 {
+    @apply leading-tight font-bold text-[44px];
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+}
