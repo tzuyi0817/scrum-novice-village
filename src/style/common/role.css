@@ -1,0 +1,16 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .role_box {
+    @apply max-w-[320px] relative mx-8;
+    .role {
+      @apply w-full absolute top-2 origin-top;
+    }
+    .hole {
+      @apply w-full;
+    }
+    .light {
+      @apply w-full scale-150;
+    }
+  }
+}

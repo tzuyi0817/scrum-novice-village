@@ -15,14 +15,14 @@
   }
 
   body {
-    @apply text-xl;
+    @apply text-xl tracking-wider bg-bg-dark overflow-hidden leading-9;
   }
 
   h2 {
-    @apply leading-tight font-bold text-[44px];
+    @apply leading-tight font-bold text-[32px];
   }
 
   h3 {
-    @apply text-2xl;
+    @apply text-2xl leading-10 font-bold;
   }
 }

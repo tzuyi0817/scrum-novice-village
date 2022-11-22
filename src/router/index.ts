@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'index',
     component: () => import('@/pages/Index.vue')
   },
+  {
+    path: '/product',
+    name: 'product',
+    component: () => import('@/pages/Product.vue')
+  },
 ];
 
 const router = createRouter({
