@@ -116,6 +116,7 @@ onMounted(init);
     w-[65%]
     h-[50%]
     -translate-y-10
+    rounded-[80px]
     max-w-[908px]
     max-h-[430px];
     .title {

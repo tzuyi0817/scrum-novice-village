@@ -9,7 +9,9 @@
     border-primary
     shadow-[0px_0px_2px_0px_rgba(0,255,224,0.8),0px_0px_8px_2px_rgba(0,255,224,0.95)]
     backdrop-blur-[5px]
-    rounded-[80px];
+    min-h-[192px]
+    flex-1
+    rounded-[40px];
     .title {
       @apply absolute top-10 -left-[14px];
       h3 {
@@ -18,6 +20,9 @@
     }
     .content {
       @apply px-[10%] my-10 text-white overflow-hidden;
+    }
+    .continue {
+      @apply absolute bottom-10 right-8 animate-bounce;
     }
   }
 }

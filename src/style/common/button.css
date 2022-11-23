@@ -16,6 +16,11 @@
     rounded-[40px]
     hover:translate-y-[2px]
     hover:shadow-[0_2px_0px_0px_rgb(0,0,0)]
+    disabled:grayscale
+    disabled:hover:translate-y-0
+    disabled:hover:shadow-[0_4px_0px_0px_rgb(0,0,0),0_4px_6px_0px_rgb(0,0,0)]
+    disabled:hover:shadow-primary
+    disabled:cursor-not-allowed
     hover:shadow-primary;
     background: linear-gradient(0deg, rgba(0, 255, 224, 0) 0%, #00FFE0 100%), #008D96;
   }

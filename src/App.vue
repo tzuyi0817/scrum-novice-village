@@ -6,11 +6,12 @@ import ScrumProgress from '@/components/ScrumProgress.vue';
 
 <template>
   <scrum-loading />
-  <router-view v-slot="{ Component }">
+  <router-view />
+  <!-- <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
       <component :is="Component" ref="component" />
     </transition>
-  </router-view>
+  </router-view> -->
   <scrum-progress />
   <scrum-footer />
 </template>

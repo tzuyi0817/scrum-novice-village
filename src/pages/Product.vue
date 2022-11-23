@@ -1,21 +1,81 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, shallowRef, onMounted } from 'vue';
 import { useFlagStore, useProgressStore } from '@/store';
-import { gsap, showRole, showDialog } from '@/utils/gsap';
+import ScrumPo from '@/components/ScrumPo.vue';
+import ProductPo1 from '@/components/product/ProductPo1.vue';
+import ProductPo2 from '@/components/product/ProductPo2.vue';
+import ProductPo3 from '@/components/product/ProductPo3.vue';
+import ProductPo4 from '@/components/product/ProductPo4.vue';
+import ProductPo5 from '@/components/product/ProductPo5.vue';
+import ProductList from '@/components/product/ProductList.vue';
+import useRedirect from '@/hooks/useRedirect';
+import { gsap, fadeIn, fadeOut } from '@/utils/gsap';
 import { sleep } from '@/utils/common';
 
-async function illustratePo() {
-  await showRole('.role_box');
-  await showDialog('.dialog', '.content');
-}
+const po = ref<InstanceType<typeof ScrumPo> | null>(null);
+const list = ref<InstanceType<typeof ProductList> | null>(null);
+const isShowContinue = ref(true);
+const isDisabledComplete = ref(true);
+const illustrate = shallowRef(ProductPo1);
+const { goPage } = useRedirect();
 
 async function init() {
-  gsap.set('.role_box', { autoAlpha: 0 });
-  gsap.set('.dialog', { autoAlpha: 0 });
+  gsap.set('.frame_primary', { autoAlpha: 0 });
+  gsap.set('.product_complete, .product_start', { autoAlpha: 0 });
+  gsap.set('.product_mask, .product_mask_backdrop', { autoAlpha: 0 });
+
   useFlagStore().setLoadingFlag(false);
   useProgressStore().setProgress(20);
+  po.value?.init();
   await sleep(1000);
-  illustratePo();
+  await po.value?.illustrate();
+  await fadeIn('.frame_primary');
+  window.onclick = continueDialog;
+}
+
+async function continueDialog() {
+  window.onclick = null;
+  illustrate.value = ProductPo2;
+  isShowContinue.value = false;
+  fadeOut('.frame_primary');
+  await po.value?.continueDialog();
+  fadeIn('.product_start');
+}
+
+async function showProductList() {
+  list.value?.showList();
+  await fadeOut('.product_start');
+  illustrate.value = ProductPo3;
+  isShowContinue.value = true;
+  list.value?.education();
+  await po.value?.continueDialog();
+  window.onclick = educationEnd;
+}
+
+function educationEnd() {
+  window.onclick = null;
+  illustrate.value = ProductPo4;
+  isShowContinue.value = false;
+  list.value?.educationEnd();
+  gsap.set('.product_complete', { autoAlpha: 1 });
+  po.value?.continueDialog();
+}
+
+async function complete() {
+  fadeOut('.product_complete');
+  await fadeIn('.product_mask, .product_mask_backdrop');
+  illustrate.value = ProductPo5;
+  isShowContinue.value = true;
+  po.value?.continueDialog();
+  fadeIn('.frame_primary');
+  window.onclick = goNext;
+}
+
+async function goNext() {
+  window.onclick = null;
+  await fadeOut('.product_list, .frame_primary');
+  await fadeOut('.product_mask, .product_mask_backdrop');
+  goPage('plan');
 }
 
 onMounted(init);
@@ -23,29 +83,23 @@ onMounted(init);
 
 <template>
   <div class="product">
-    <div class="product_role">
-      <div class="role_box">
-        <img src="@/assets/role/hole.svg" alt="" class="hole">
-        <img src="@/assets/role/role_po_light.png" alt="" class="light">
-        <img src="@/assets/role/role_po.png" alt="" class="role">
-      </div>
+    <scrum-po ref="po" :isShowContinue="isShowContinue" class="absolute w-full top-0 z-10 pointer-events-none">
+      <component :is="illustrate" />
+    </scrum-po>
 
-      <div class="dialog mx-10 mt-5 max-h-[224px]">
-        <div class="title">
-          <img src="@/assets/role/title_po.svg" alt="">
-          <h3>PO</h3>
-        </div>
-
-        <div class="content">
-          <p><span class="text-text-tint">\ 碰 /</span> 我是短衝小精靈 ， 開發 A 組的 PO 。</p>
-          <p>
-            <span class="text-text-tint">PO 也就是產品負責人（Product Owner）</span>
-            ， 產品負責人會負責評估產品待辦清單的價值與重要性， 依序排列要執行的優先順序 ， 對齊產品目標 。 
-            最後排出產品待辦清單（Product Backlog） 唷 ！
-          </p>
-        </div>
-      </div>
+    <div class="w-full flex justify-center absolute top-1/2 z-10">
+      <div class="frame_primary">點擊畫面任意處繼續</div>
     </div>
+    <product-list ref="list" v-model:isDisabledComplete="isDisabledComplete" />
+    <button class="product_start btn" @click="showProductList">準備好了</button>
+    <button
+      class="product_complete btn z-[4]" 
+      @click="complete"
+      :disabled="isDisabledComplete"
+    >我完成了</button>
+
+    <div class="product_mask"></div>
+    <div class="product_mask_backdrop"></div>
   </div>
 </template>
 
@@ -55,9 +109,31 @@ onMounted(init);
   w-full
   h-screen
   bg-cover
+  pt-[290px]
   bg-[url('@/assets/bg/bg_village.png')];
-  &_role {
-    @apply flex pt-10;
+  &_start, .product_complete {
+    @apply absolute right-10 bottom-20;
+  }
+  &_mask {
+    @apply
+    z-[4]
+    absolute
+    w-full
+    h-full
+    top-0
+    left-0;
+    background: linear-gradient(180deg, rgba(0, 255, 224, 0) 0%, rgba(0, 255, 224, 0.25) 60.42%, rgba(0, 255, 224, 0.45) 79.69%, rgba(0, 255, 224, 0.7) 91.67%, rgba(0, 255, 224, 0.9) 100%);
+    &_backdrop {
+      @apply
+      absolute
+      z-[4]
+      w-full
+      h-full
+      top-0
+      left-0
+      bg-bg-transitions
+      backdrop-blur-[5px];
+    }
   }
 }
 </style>

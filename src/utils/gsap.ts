@@ -17,7 +17,20 @@ function fadeOut(target: string, delay = 0.5) {
 function showDialog(target: string, content: string) {
   return new Promise(async (resolve) => {
     gsap.set(content, { autoAlpha: 0 });
+    gsap.set(`${content} > .continue`, { autoAlpha: 0 });
     await fadeIn(target);
+    const timeline = gsap.timeline();
+
+    gsap.set(content, { autoAlpha: 1 });
+    timeline.from(content, 1, { height: 0 });
+    gsap.to(`${content} > .continue`, { autoAlpha: 1 });
+    gsap.delayedCall(0.5, resolve);
+  });
+}
+
+function dialog(content: string) {
+  return new Promise(async (resolve) => {
+    gsap.set(content, { autoAlpha: 0 });
     const timeline = gsap.timeline();
 
     gsap.set(content, { autoAlpha: 1 });
@@ -51,4 +64,5 @@ export {
   fadeOut,
   showDialog,
   showRole,
+  dialog,
 };

@@ -1,0 +1,25 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .frame {
+    @apply py-2 rounded-[20px] w-fit;
+  }
+
+  .frame_primary {
+    @apply frame border-primary text-primary px-10 border-2;
+  }
+
+  .frame_list {
+    @apply 
+    frame 
+    border-primary 
+    text-white 
+    bg-bg-dark/60 
+    max-w-[324px]
+    px-6
+    flex
+    justify-center
+    items-center
+    border-4;
+  }
+}
