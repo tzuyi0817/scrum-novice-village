@@ -1,0 +1,61 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .list {
+    @apply
+    relative
+    select-none
+    w-[500px] 
+    h-[596px]
+    z-[3]
+    before:content-['']
+    before:absolute
+    before:w-[500px]
+    before:h-[596px]
+    before:rounded-[20px]
+    before:-z-[2]
+    before:top-3
+    before:left-3
+    after:content-['']
+    after:absolute
+    after:w-[500px]
+    after:h-[596px]
+    after:rounded-[20px]
+    after:-z-[1]
+    after:top-6
+    after:left-6;
+    .title {
+      @apply rounded-t-[20px] py-[15px] flex flex-col items-center;
+    }
+    .content {
+      @apply
+      flex
+      p-8
+      backdrop-blur-[5px]
+      rounded-b-[20px]
+      relative
+      h-[500px]
+      z-10
+      after:content-['']
+      after:absolute
+      after:w-full
+      after:h-full
+      after:rounded-b-[20px]
+      after:top-0
+      after:left-0;
+    }
+    .item {
+      @apply
+      w-[416px]
+      h-[96px]
+      rounded-[20px]
+      text-white
+      transition-opacity
+      duration-500
+      flex
+      px-6
+      justify-center
+      items-center;
+    }
+  }
+}

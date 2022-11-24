@@ -22,3 +22,7 @@ export function throttle(fun: Function, delay = 0) {
     timeStamp = now;
   }
 }
+
+export function createImageSrc(url: string) {
+  return new URL(`/src/assets/${url}`, import.meta.url).href;
+}

@@ -22,10 +22,10 @@ const { goPage } = useRedirect();
 async function init() {
   gsap.set('.frame_primary', { autoAlpha: 0 });
   gsap.set('.product_complete, .product_start', { autoAlpha: 0 });
-  gsap.set('.product_mask, .product_mask_backdrop', { autoAlpha: 0 });
+  gsap.set('.mask, .mask_backdrop', { autoAlpha: 0 });
 
   useFlagStore().setLoadingFlag(false);
-  useProgressStore().setProgress(20);
+  useProgressStore().setProgress(17);
   po.value?.init();
   await sleep(1000);
   await po.value?.illustrate();
@@ -63,7 +63,7 @@ function educationEnd() {
 
 async function complete() {
   fadeOut('.product_complete');
-  await fadeIn('.product_mask, .product_mask_backdrop');
+  await fadeIn('.mask, .mask_backdrop');
   illustrate.value = ProductPo5;
   isShowContinue.value = true;
   po.value?.continueDialog();
@@ -74,7 +74,7 @@ async function complete() {
 async function goNext() {
   window.onclick = null;
   await fadeOut('.product_list, .frame_primary');
-  await fadeOut('.product_mask, .product_mask_backdrop');
+  await fadeOut('.mask, .mask_backdrop');
   goPage('plan');
 }
 
@@ -98,8 +98,8 @@ onMounted(init);
       :disabled="isDisabledComplete"
     >我完成了</button>
 
-    <div class="product_mask"></div>
-    <div class="product_mask_backdrop"></div>
+    <div class="mask"></div>
+    <div class="mask_backdrop"></div>
   </div>
 </template>
 
@@ -113,27 +113,6 @@ onMounted(init);
   bg-[url('@/assets/bg/bg_village.png')];
   &_start, .product_complete {
     @apply absolute right-10 bottom-20;
-  }
-  &_mask {
-    @apply
-    z-[4]
-    absolute
-    w-full
-    h-full
-    top-0
-    left-0;
-    background: linear-gradient(180deg, rgba(0, 255, 224, 0) 0%, rgba(0, 255, 224, 0.25) 60.42%, rgba(0, 255, 224, 0.45) 79.69%, rgba(0, 255, 224, 0.7) 91.67%, rgba(0, 255, 224, 0.9) 100%);
-    &_backdrop {
-      @apply
-      absolute
-      z-[4]
-      w-full
-      h-full
-      top-0
-      left-0
-      bg-bg-transitions
-      backdrop-blur-[5px];
-    }
   }
 }
 </style>

@@ -42,8 +42,8 @@ function init() {
 }
 
 watch(list, (list) => {
-  if (list.length !== 4) return;
-  emit('update:isDisabledComplete', false);
+  const isComplete = list.length === 4;
+  emit('update:isDisabledComplete', !isComplete);
 });
 onMounted(init)
 defineExpose({ showList, education, educationEnd });
@@ -53,7 +53,7 @@ defineExpose({ showList, education, educationEnd });
   <div class="product_list">
     <draggable
       v-model="dropLeft"
-      class="product_list_drop items-end"
+      class="product_list_drop items-end relative flex-1 pt-[5%] flex flex-col gap-10 mr-[57px] ml-[81px] z-[4]"
       :tag="'ul'"
     >
       <li v-for="item in dropLeft" :key="item.id" :class="`frame_list drop${item.id}`">
@@ -61,12 +61,12 @@ defineExpose({ showList, education, educationEnd });
       </li>
     </draggable>
 
-    <div class="product_list_box">
-      <div class="product_list_title">
+    <div class="product_list_box list">
+      <div class="title bg-primary">
         <h2>產品待辦清單</h2>
         <p class="text-primary-dark text-base font-bold">Product Backlog</p>
       </div>
-      <div class="product_list_content">
+      <div class="product_list_content content">
         <div class="flex flex-col gap-[6px] mr-4">
           <p class="text-base text-white">高</p>
           <div class="border-l-2 h-[380px] border-white translate-x-[6px]"></div>
@@ -80,7 +80,7 @@ defineExpose({ showList, education, educationEnd });
         >
           <li
             v-for="item in list"
-            class="product_list_item border-4 bg-bg-dark/60"
+            class="product_list_item item border-4 bg-bg-dark/60"
             :key="item.id"
           >{{ item.text }}</li>
         </draggable>
@@ -88,7 +88,7 @@ defineExpose({ showList, education, educationEnd });
         <ul class="absolute flex flex-col gap-[10px] left-[65px] top-8">
           <li
             v-for="num in 4" :key="num"
-            class="product_list_item border-2 border-dashed"
+            class="product_list_item item border-2 border-dashed"
           ></li>
         </ul>
 
@@ -101,7 +101,7 @@ defineExpose({ showList, education, educationEnd });
 
     <draggable
       v-model="dropRight"
-      class="product_list_drop items-start"
+      class="product_list_drop items-start relative flex-1 pt-[5%] flex flex-col gap-10 mr-[57px] ml-[81px] z-[4]"
       :tag="'ul'"
     >
       <li v-for="item in dropRight" :key="item.id" :class="`frame_list drop${item.id}`">
@@ -111,69 +111,22 @@ defineExpose({ showList, education, educationEnd });
   </div>
 </template>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .product_list {
   @apply flex justify-center;
   &_box {
-    @apply
-    relative
-    w-[500px] 
-    h-[596px]
-    z-[3]
-    before:content-['']
-    before:absolute
-    before:w-[500px]
-    before:h-[596px]
-    before:bg-primary/20
-    before:rounded-[20px]
-    before:-z-[2]
-    before:top-3
-    before:left-3
-    after:content-['']
-    after:absolute
-    after:w-[500px]
-    after:h-[596px]
-    after:bg-primary/10
-    after:rounded-[20px]
-    after:-z-[1]
-    after:top-6
-    after:left-6;
-  }
-  &_title {
-    @apply 
-    bg-primary 
-    rounded-t-[20px] 
-    py-[15px]
-    flex
-    flex-col
-    items-center
+    @apply before:bg-primary/20 after:bg-primary/10;
   }
   &_item {
-    @apply 
-    border-primary
-    w-[416px]
-    h-[96px]
-    rounded-[20px]
-    text-white
-    transition-opacity
-    duration-500
-    flex
-    px-6
-    justify-center
-    items-center;
+    @apply border-primary;
   }
   &_content {
-    @apply
-    flex
-    p-8
-    bg-primary/30 
-    backdrop-blur-[5px]
-    rounded-b-[20px] 
-    h-[500px]
-    z-10;
+    @apply bg-primary/30;
+    &:after {
+      background: radial-gradient(50% 50% at 50% 50%, #00FFE0 0%, rgba(0, 255, 224, 0) 100%);
+    }
   }
   &_drop {
-    @apply relative flex-1 pt-[5%] flex flex-col gap-10 mr-[57px] ml-[81px] z-[4];
     li {
       @apply odd:ml-[10%] even:mr-[10%] transition-opacity duration-500;
     }
@@ -191,7 +144,7 @@ defineExpose({ showList, education, educationEnd });
     translate-y-3;
   }
   .education_drop {
-    @apply absolute -right-[376px] top-[50px] -translate-x-[58px] translate-y-[90px];
+    @apply absolute -right-[376px] top-[50px] -translate-x-[58px] translate-y-[90px] z-[4];
   }
 }
 </style>

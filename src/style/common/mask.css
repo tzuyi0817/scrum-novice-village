@@ -1,0 +1,16 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .mask_screen {
+    @apply z-[4] absolute w-full h-full top-0 left-0;
+  }
+
+  .mask {
+    @apply mask_screen;
+    background: linear-gradient(180deg, rgba(0, 255, 224, 0) 0%, rgba(0, 255, 224, 0.25) 60.42%, rgba(0, 255, 224, 0.45) 79.69%, rgba(0, 255, 224, 0.7) 91.67%, rgba(0, 255, 224, 0.9) 100%);
+  }
+
+  .mask_backdrop {
+    @apply mask_screen bg-bg-transitions backdrop-blur-[5px];
+  }
+}

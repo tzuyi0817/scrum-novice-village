@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { gsap, showRole, showDialog, dialog } from '@/utils/gsap';
+import {
+  gsap,
+  showRole,
+  showDialog,
+  dialog,
+  fadeOut,
+  hideRole,
+} from '@/utils/gsap';
 
 interface Props {
   isShowContinue: boolean;
@@ -16,12 +23,26 @@ async function continueDialog() {
   await dialog('.scrum_po > .dialog > .content');
 }
 
+async function hideDialog() {
+  await fadeOut('.scrum_po > .dialog');
+}
+
+async function hide() {
+  await hideRole('.scrum_po > .role_box');
+}
+
 function init() {
   gsap.set('.scrum_po > .role_box', { autoAlpha: 0 });
   gsap.set('.scrum_po > .dialog', { autoAlpha: 0 });
 }
 
-defineExpose({ init, illustrate, continueDialog });
+defineExpose({
+  init,
+  illustrate,
+  continueDialog,
+  hideDialog,
+  hide,
+});
 </script>
 
 <template>

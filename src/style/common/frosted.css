@@ -1,0 +1,20 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .frosted {
+    @apply
+    z-[2]
+    relative
+    backdrop-blur-[5px]
+    before:content-['']
+    before:absolute
+    before:-z-[1]
+    before:top-3
+    before:left-3
+    after:content-['']
+    after:absolute
+    after:-z-[1]
+    after:top-0
+    after:left-0;
+  }
+}

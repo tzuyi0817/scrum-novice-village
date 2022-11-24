@@ -11,11 +11,13 @@
     relative
     shadow-[0_4px_0px_0px_rgb(0,0,0),0_4px_6px_0px_rgb(0,0,0)]
     shadow-primary
-    transition-all
+    transition-transform
     duration-500
     rounded-[40px]
     hover:translate-y-[2px]
     hover:shadow-[0_2px_0px_0px_rgb(0,0,0)]
+    hover:transition-all
+    hover:duration-500
     disabled:grayscale
     disabled:hover:translate-y-0
     disabled:hover:shadow-[0_4px_0px_0px_rgb(0,0,0),0_4px_6px_0px_rgb(0,0,0)]

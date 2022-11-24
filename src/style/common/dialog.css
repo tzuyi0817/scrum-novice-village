@@ -19,7 +19,7 @@
       }
     }
     .content {
-      @apply px-[10%] my-10 text-white overflow-hidden;
+      @apply px-[10%] mt-10 text-white overflow-hidden h-fit;
     }
     .continue {
       @apply absolute bottom-10 right-8 animate-bounce;
