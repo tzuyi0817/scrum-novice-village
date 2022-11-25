@@ -28,14 +28,13 @@ function showDialog(target: string, content: string) {
   });
 }
 
-function dialog(content: string) {
+function dialog(content: string, height = 108) {
   return new Promise(async (resolve) => {
     gsap.set(content, { autoAlpha: 0 });
     const timeline = gsap.timeline();
 
     gsap.set(content, { autoAlpha: 1 });
-    timeline.fromTo(content, 1, { height: 0 }, { height: 108 });
-    gsap.delayedCall(0.5, resolve);
+    timeline.fromTo(content, 1, { height: 0 }, { height }).call(resolve);
   });
 }
 

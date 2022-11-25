@@ -113,7 +113,7 @@ defineExpose({ showList, education, educationEnd });
 
 <style lang="postcss" scoped>
 .product_list {
-  @apply flex justify-center;
+  @apply flex justify-center select-none;
   &_box {
     @apply before:bg-primary/20 after:bg-primary/10;
   }

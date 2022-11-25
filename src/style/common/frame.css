@@ -14,12 +14,26 @@
     frame 
     border-primary 
     text-white 
-    bg-bg-dark/60 
+    bg-bg-dark/60
     max-w-[324px]
     px-6
     flex
     justify-center
     items-center
     border-4;
+  }
+
+  .frame_team1 {
+    @apply
+    frame 
+    border-role-team1
+    text-role-team1
+    border-4
+    flex
+    flex-col
+    justify-center
+    items-center
+    w-full
+    bg-bg-dark/60;
   }
 }

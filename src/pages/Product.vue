@@ -87,7 +87,7 @@ onMounted(init);
       <component :is="illustrate" />
     </scrum-po>
 
-    <div class="w-full flex justify-center absolute top-1/2 z-10">
+    <div class="w-full flex justify-center absolute top-1/2 z-10 pointer-events-none">
       <div class="frame_primary">點擊畫面任意處繼續</div>
     </div>
     <product-list ref="list" v-model:isDisabledComplete="isDisabledComplete" />

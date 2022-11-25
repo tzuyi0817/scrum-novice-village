@@ -2,7 +2,8 @@
 import { ref, shallowRef, reactive, computed, onMounted } from 'vue';
 import { useFlagStore, useProgressStore } from '@/store';
 import ScrumTeam2 from '@/components/ScrumTeam2.vue';
-import InventoryGg from '@/components/inventory/InventoryGg.vue';
+import InventoryGg1 from '@/components/inventory/InventoryGg1.vue';
+import InventoryGg2 from '@/components/inventory/InventoryGg2.vue';
 import Draggable from '@/components/Draggable.vue';
 import useRedirect from '@/hooks/useRedirect';
 import { gsap, fadeIn, fadeOut } from '@/utils/gsap';
@@ -17,7 +18,7 @@ interface DropItem {
 const gg = ref<InstanceType<typeof ScrumTeam2> | null>(null);
 const isShowContinue = ref(false);
 const isShowIllustrate = ref(false);
-const illustrate = shallowRef(InventoryGg);
+const illustrate = shallowRef(InventoryGg1);
 const develop = reactive<DropItem[]>([]);
 const product = reactive([
   { id: 1, size: 8, text: '後台職缺管理功能（資訊上架、下架、顯示應徵者資料）' },
@@ -25,7 +26,7 @@ const product = reactive([
   { id: 3, size: 13, text: '會員系統（登入、註冊、權限管理）' },
   { id: 4, size: 8, text: '前台職缺列表、應徵' },
 ]);
-// const { goPage } = useRedirect();
+const { goPage } = useRedirect();
 
 const totalSize = computed(() => develop.reduce((total, { size }) => total + size, 0));
 const barPercent = computed(() => totalSize.value / 20 * 100);
@@ -34,13 +35,32 @@ const isDisableBtn = computed(() => develop.length < 2 || totalSize.value > 20);
 async function init() {
   useFlagStore().setLoadingFlag(false);
   useProgressStore().setProgress(50);
+  gsap.set('.inventory_product, .inventory_develop, .inventory_start', { autoAlpha: 0 });
+  gsap.set('.mask, .mask_backdrop, .inventory_screen', { autoAlpha: 0 });
   await sleep(1000);
   isShowIllustrate.value = true;
+  fadeIn('.inventory_product, .inventory_develop, .inventory_start');
   await gg.value?.continueDialog();
 }
 
-function startSprint() {
+async function startSprint() {
+  isShowIllustrate.value = false;
+  await fadeIn('.mask, .mask_backdrop');
+  illustrate.value = InventoryGg2;
+  isShowIllustrate.value = true;
+  fadeIn('.inventory_screen');
+  await gg.value?.continueDialog();
+  isShowContinue.value = true;
+  window.onclick = goCircuit;
+}
 
+async function goCircuit() {
+  window.onclick = null;
+  await fadeOut('.inventory_product, .inventory_develop, .inventory_start, .inventory_screen');
+  fadeOut('.mask, .mask_backdrop');
+  await gg.value?.hide();
+  await gg.value?.hideDialog();
+  goPage('circuit');
 }
 
 onMounted(init);
@@ -83,6 +103,7 @@ onMounted(init);
           v-model="develop"
           class="flex flex-col gap-[10px] z-[4] h-full w-full"
           :tag="'ul'"
+          :disabledArea="develop.length === 3"
         >
           <li
             v-for="item in develop"
@@ -116,9 +137,16 @@ onMounted(init);
       :disabled="isDisableBtn"
     >開始sprint</button>
 
-    <scrum-team2 ref="gg" :isShowContinue="isShowContinue" class="w-full">
+    <scrum-team2 ref="gg" :isShowContinue="isShowContinue" class="w-full z-[15]">
       <component :is="illustrate" v-show="isShowIllustrate" />
     </scrum-team2>
+
+    <div class="inventory_screen">
+      <div class="frame_primary">點擊畫面任意處繼續</div>
+    </div>
+
+    <div class="mask z-10"></div>
+    <div class="mask_backdrop z-10"></div>
   </div>
 </template>
 
@@ -188,13 +216,16 @@ onMounted(init);
     h-[50px];
   }
   &_item {
-    @apply border-4 bg-bg-dark/60 justify-start gap-[10px] w-full;
+    @apply border-4 bg-bg-dark/60 justify-start gap-[10px] w-full transition-colors duration-500;
     &.dashed {
       @apply border-2 border-dashed border-role-team1 bg-transparent w-[436px];
     }
   }
   &_start {
     @apply absolute right-10 bottom-20;
+  }
+  &_screen {
+    @apply w-full flex justify-center absolute top-1/2 z-[15];
   }
 }
 </style>

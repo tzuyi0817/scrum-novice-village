@@ -224,7 +224,7 @@ onMounted(init);
       <component :is="illustrateSm" v-show="isShowIllustrateSm" />
     </scrum-sm>
 
-    <scrum-team1 ref="team1" :isShowContinue="isShowEeContinue" class="w-[calc(100%-400px)]">
+    <scrum-team1 ref="team1" :isShowContinue="isShowEeContinue" class="w-[calc(100%-400px)] right-[360px]">
       <component :is="illustrateEe" v-show="isShowIllustrateEe" />
     </scrum-team1>
 

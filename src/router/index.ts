@@ -25,6 +25,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'inventory',
     component: () => import('@/pages/Inventory.vue')
   },
+  {
+    path: '/circuit',
+    name: 'circuit',
+    component: () => import('@/pages/Circuit.vue')
+  },
+  {
+    path: '/retro',
+    name: 'retro',
+    component: () => import('@/pages/Retro.vue')
+  },
 ];
 
 const router = createRouter({

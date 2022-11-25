@@ -10,6 +10,7 @@ interface Props {
   tag?: string;
   modelValue: unknown[];
   animation?: DragAnimationClass;
+  disabledArea?: boolean
 }
 
 const slots = useSlots();
@@ -25,6 +26,7 @@ const {
   handleDragStart,
   handleDragEnd,
   handleDragEnter,
+  handleDragOver,
   setDraggableList,
   draggableList,
 } = useDrag(props, areaId);
@@ -52,6 +54,7 @@ const SlotItems = defineComponent({
                 ondrag: draggable && handleDrag,
                 ondragend: draggable && handleDragEnd,
                 ondragenter: draggable && handleDragEnter,
+                ondragover: draggable && handleDragOver,
                 class: setChildClass(child, draggable),
                 ['data-draggable-id']: draggableList.value[index],
               },

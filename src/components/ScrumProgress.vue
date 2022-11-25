@@ -13,7 +13,7 @@ const { progress } = storeToRefs(useProgressStore());
 
 <style lang="postcss" scoped>
 .scrum_progress {
-  @apply fixed w-full top-0 left-0 h-3 bg-primary-dark;
+  @apply fixed w-full top-0 left-0 h-3 bg-primary-dark z-10;
   &_bar {
     @apply
     bg-gradient-270 from-[#00FFE0] to-[rgba(0,255,224,0.1)]

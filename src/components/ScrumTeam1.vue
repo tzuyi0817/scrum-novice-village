@@ -85,7 +85,7 @@ defineExpose({
 
 <style lang="postcss" scoped>
 .scrum_team1 {
-  @apply fixed top-10 right-[360px] flex items-start;
+  @apply fixed top-10 right-0 flex items-start pointer-events-none;
   .dialog {
     @apply border-role-team1 shadow-[0px_0px_2px_0px_rgba(255,199,0,0.8),0px_0px_8px_2px_rgba(255,199,0,0.95)]
   }

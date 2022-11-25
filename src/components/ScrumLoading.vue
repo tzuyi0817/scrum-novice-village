@@ -34,7 +34,7 @@ onMounted(setLoading);
 
 <style lang="postcss" scoped>
 .scrum_loading {
-  @apply fixed w-full h-full flex flex-col items-center justify-center z-10 bg-bg-dark;
+  @apply fixed w-full h-full flex flex-col items-center justify-center z-20 bg-bg-dark;
   &_progress {
     @apply bg-primary-dark w-[80%] max-w-[500px] h-2 mt-6;
   }

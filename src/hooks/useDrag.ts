@@ -1,5 +1,5 @@
 import { ref, nextTick, toRefs } from 'vue';
-import { createUuid, swap } from '@/utils/common';
+import { createUuid, swap, sleep } from '@/utils/common';
 import { gsap } from '@/utils/gsap';
 import type { DragAnimationClass, ListMap } from '@/types/drag';
 
@@ -12,6 +12,7 @@ const currentDropElement = ref<HTMLLIElement | null>(null);
 interface Props {
   modelValue: unknown[];
   animation?: DragAnimationClass;
+  disabledArea?: boolean;
 }
 
 export default function useDrag(props: Props, areaId: string) {
@@ -25,7 +26,7 @@ export default function useDrag(props: Props, areaId: string) {
 
   function handleDragAreaEnter(event: DragEvent) {
     const areaId = (<HTMLLIElement>event.target).dataset.draggableArea;
-    if (areaId === void 0) return;
+    if (areaId === void 0 || props.disabledArea) return;
     moveOtherArea(areaId);
   }
 
@@ -36,21 +37,27 @@ export default function useDrag(props: Props, areaId: string) {
     currentDragElement.value = target;
   }
   
-  function handleDragStart(event: DragEvent) {
+  async function handleDragStart(event: DragEvent) {
     if (!event.dataTransfer) return;
     const target = <HTMLLIElement>event.target;
+    const parent = target.parentElement?.parentElement?.parentElement;
 
     event.dataTransfer.effectAllowed = 'move';
     dragId.value = target.dataset.draggableId;
     dragAreaId.value = (<HTMLLIElement>target.parentNode).dataset.draggableArea;
+    parent && (parent.style.zIndex = '6');
   }
   
-  function handleDragEnd(event: DragEvent) {
-    const { target, offsetX, offsetY }  = event;
+  async function handleDragEnd(event: DragEvent) {
+    const { target, offsetX, offsetY } = event;
+    const parent = currentDragElement.value!.parentElement?.parentElement?.parentElement;
+
 
     currentDragElement.value!.style.opacity = '1';
-    gsap.set(target, { x: offsetX - 230, y: offsetY - 50 });
+    gsap.set(target, { x: offsetX - 185, y: offsetY - 35 });
     gsap.to(target, { x: 0, y: 0, autoAlpha: 1 });
+    await sleep();
+    parent && (parent.style.zIndex = '0');
   }
   
   function handleDragEnter(event: DragEvent) {
@@ -66,6 +73,12 @@ export default function useDrag(props: Props, areaId: string) {
     if (!dropId || target.dataset.draggableId === currentDropElement.value?.dataset.draggableId) return;
     currentDropElement.value = target;
     move(dropId);
+  }
+
+  function handleDragOver(event: DragEvent) {
+    event.preventDefault();
+    if (!event.dataTransfer) return;
+    event.dataTransfer.dropEffect = 'move';
   }
   
   async function move(dropId?: string) {
@@ -96,9 +109,11 @@ export default function useDrag(props: Props, areaId: string) {
       moveToEmptyArea(preList.value, list.value, dragIndex);
       moveToEmptyArea(preModel.value, model.value, dragIndex);
     } else {
-      const dropIndex = list.value.findIndex((id: string) => id === dropId); 
+      const dropIndex = list.value.findIndex((id: string) => id === dropId);
+
       swap({ a: dragIndex, b: dropIndex, from: preList.value, to: list.value });
       swap({ a: dragIndex, b: dropIndex, from: preModel.value, to: model.value });
+      return;
     }
     await nextTick();
     hideNewElement();
@@ -124,6 +139,7 @@ export default function useDrag(props: Props, areaId: string) {
     handleDragStart,
     handleDragEnd,
     handleDragEnter,
+    handleDragOver,
     setDraggableList,
     draggableList,
   }
