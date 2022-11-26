@@ -35,6 +35,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'retro',
     component: () => import('@/pages/Retro.vue')
   },
+  {
+    path: '/final',
+    name: 'final',
+    component: () => import('@/pages/Final.vue')
+  },
 ];
 
 const router = createRouter({

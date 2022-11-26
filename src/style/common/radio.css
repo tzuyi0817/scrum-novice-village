@@ -1,0 +1,42 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .radio {
+    @apply
+    w-5
+    h-5
+    appearance-none
+    relative
+    m-1
+    cursor-pointer
+    before:content-['']
+    before:absolute
+    before:-top-1
+    before:-left-1
+    before:inline-block
+    before:align-bottom
+    before:w-7
+    before:h-7
+    before:rounded-full
+    before:transition-all
+    before:duration-500
+    before:bg-bg-dark/60
+    before:border-primary
+    before:border-[3px]
+    before:border-solid
+    checked:after:transition-all
+    checked:after:duration-500
+    checked:after:content-['']
+    checked:after:absolute
+    checked:after:w-[16px]
+    checked:after:h-[16px]
+    checked:after:rounded-full
+    checked:after:top-[2px]
+    checked:after:left-[2px]
+    checked:after:bg-primary
+  }
+
+  .radio_danger {
+    @apply radio checked:after:bg-danger checked:before:border-danger checked:before:-top-1;
+  }
+}

@@ -52,9 +52,7 @@ module.exports = {
             'background-image': `linear-gradient(${angle}, var(--tw-gradient-stops))`,
           }),
         },
-        {
-          values: Object.assign(theme('bgGradientDeg', {}))
-        }
+        { values: Object.assign(theme('bgGradientDeg', {})) },
       )
     }),
   ],

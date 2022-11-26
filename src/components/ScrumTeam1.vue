@@ -57,7 +57,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="scrum_team1">
+  <div class="scrum_team1 right-0">
     <div class="dialog mx-10 mt-5">
       <div class="title">
         <img src="@/assets/role/title_team1.svg" alt="">
@@ -85,7 +85,7 @@ defineExpose({
 
 <style lang="postcss" scoped>
 .scrum_team1 {
-  @apply fixed top-10 right-0 flex items-start pointer-events-none;
+  @apply fixed top-10 flex items-start pointer-events-none;
   .dialog {
     @apply border-role-team1 shadow-[0px_0px_2px_0px_rgba(255,199,0,0.8),0px_0px_8px_2px_rgba(255,199,0,0.95)]
   }

@@ -375,7 +375,6 @@ onMounted(init);
       }
     }
   }
-
   :deep(.scrum_team2 > .dialog) {
     @apply -translate-x-[350px];
   }

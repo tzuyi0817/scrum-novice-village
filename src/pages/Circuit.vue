@@ -96,6 +96,8 @@ async function complete() {
 async function goRetro() {
   window.onclick = null;
   fadeOut('.circuit_screen');
+  await fadeOut('.circuit_process');
+  fadeOut('.mask, .mask_backdrop');
   await ee.value?.hide();
   await ee.value?.hideDialog();
   goPage('retro');
