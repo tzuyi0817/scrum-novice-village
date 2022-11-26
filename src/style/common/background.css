@@ -1,0 +1,37 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .background_1 {
+    @apply bg-[url('@/assets/bg/bg_village_2.png'),url('@/assets/bg/bg_village_1.png')] bg-center bg-cover -translate-x-[3%];
+  }
+
+  .background_2 {
+    @apply bg-[url('@/assets/bg/bg_village_4.png'),url('@/assets/bg/bg_village_3.png')] bg-center bg-cover -translate-x-[3%];
+  }
+
+  .background {
+    @apply 
+    absolute
+    top-0
+    left-0
+    pointer-events-none
+    w-[106%]
+    h-screen
+    before:content-['']
+    before:absolute
+    before:w-full
+    before:h-full
+    before:top-0
+    before:left-0
+    before:background_2
+    before:-z-[1]
+    after:content-['']
+    after:absolute
+    after:w-full
+    after:h-full
+    after:top-0
+    after:left-0
+    after:background_1
+    after:-z-[2];
+  }
+}

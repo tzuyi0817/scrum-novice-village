@@ -2,10 +2,12 @@
 import ScrumLoading from '@/components/ScrumLoading.vue';
 import ScrumFooter from '@/components/ScrumFooter.vue';
 import ScrumProgress from '@/components/ScrumProgress.vue';
+import ScrumBackground from '@/components/ScrumBackground.vue';
 </script>
 
 <template>
   <scrum-loading />
+  <scrum-background />
   <router-view />
   <!-- <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">

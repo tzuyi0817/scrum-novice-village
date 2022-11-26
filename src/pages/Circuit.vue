@@ -10,6 +10,7 @@ import CircuitEe3 from '@/components/circuit/CircuitEe3.vue';
 import CircuitEe4 from '@/components/circuit/CircuitEe4.vue';
 import CircuitEe5 from '@/components/circuit/CircuitEe5.vue';
 import useRedirect from '@/hooks/useRedirect';
+import useBackground from '@/hooks/useBackground';
 import { gsap, fadeIn, fadeOut, slideIn, dialog } from '@/utils/gsap';
 import { sleep } from '@/utils/common';
 
@@ -19,6 +20,7 @@ const isShowIllustrate = ref(false);
 const isDisabledComplete = ref(true);
 const illustrate = shallowRef(CircuitEe1);
 const { goPage } = useRedirect();
+const { moveBackground } = useBackground();
 
 async function init() {
   useFlagStore().setLoadingFlag(false);
@@ -107,7 +109,7 @@ onMounted(init);
 </script>
 
 <template>
-  <div class="circuit">
+  <div class="circuit" @mousemove="moveBackground">
     <scrum-team1 ref="ee" :isShowContinue="isShowContinue" class="w-full z-[15]">
       <component :is="illustrate" v-show="isShowIllustrate" />
     </scrum-team1>
@@ -130,14 +132,12 @@ onMounted(init);
 <style lang="postcss" scoped>
 .circuit {
   @apply
-  w-full
-  h-screen
   px-14
   pt-[310px]
   flex
-  gap-20
-  bg-cover
-  bg-[url('@/assets/bg/bg_village.png')];
+  w-screen
+  h-screen
+  gap-20;
   .btn {
     @apply absolute right-10 bottom-20;
   }

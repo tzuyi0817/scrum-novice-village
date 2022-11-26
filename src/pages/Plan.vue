@@ -13,6 +13,7 @@ import PlanEe3 from '@/components/plan/PlanEe3.vue';
 import ScrumTeam2 from '@/components/ScrumTeam2.vue';
 import PlanGg1 from '@/components/plan/PlanGg1.vue';
 import useRedirect from '@/hooks/useRedirect';
+import useBackground from '@/hooks/useBackground';
 import { gsap, fadeIn, fadeOut, slideIn, slideOut, scaleIn } from '@/utils/gsap';
 import { sleep, createImageSrc } from '@/utils/common';
 
@@ -33,6 +34,7 @@ const illustrateSm = shallowRef(PlanSm1);
 const illustrateEe = shallowRef(PlanEe1);
 const illustrateGg = shallowRef(PlanGg1);
 const { goPage } = useRedirect();
+const { moveBackground } = useBackground();
 
 async function init() {
   gsap.set('.plan_sprint, .plan_team, .plan_sprintPlan, .plan_exercise', { autoAlpha: 0 });
@@ -164,7 +166,7 @@ onMounted(init);
 </script>
 
 <template>
-  <div class="plan">
+  <div class="plan" @mousemove="moveBackground">
     <scrum-po ref="po" :isShowContinue="isShowPoContinue">
       <component :is="illustratePo" v-show="isShowIllustratePo" />
     </scrum-po>
@@ -236,11 +238,7 @@ onMounted(init);
 
 <style lang="postcss" scoped>
 .plan {
-  @apply
-  w-full
-  h-screen
-  bg-cover
-  bg-[url('@/assets/bg/bg_village.png')];
+  @apply w-screen h-screen;
   &_item {
     @apply
     px-5 

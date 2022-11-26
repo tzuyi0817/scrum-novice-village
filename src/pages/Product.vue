@@ -9,6 +9,7 @@ import ProductPo4 from '@/components/product/ProductPo4.vue';
 import ProductPo5 from '@/components/product/ProductPo5.vue';
 import ProductList from '@/components/product/ProductList.vue';
 import useRedirect from '@/hooks/useRedirect';
+import useBackground from '@/hooks/useBackground';
 import { gsap, fadeIn, fadeOut } from '@/utils/gsap';
 import { sleep } from '@/utils/common';
 
@@ -18,6 +19,7 @@ const isShowContinue = ref(true);
 const isDisabledComplete = ref(true);
 const illustrate = shallowRef(ProductPo1);
 const { goPage } = useRedirect();
+const { moveBackground } = useBackground();
 
 async function init() {
   gsap.set('.frame_primary', { autoAlpha: 0 });
@@ -82,7 +84,7 @@ onMounted(init);
 </script>
 
 <template>
-  <div class="product">
+  <div class="product" @mousemove="moveBackground">
     <scrum-po ref="po" :isShowContinue="isShowContinue" class="absolute w-full top-0 z-10 pointer-events-none">
       <component :is="illustrate" />
     </scrum-po>
@@ -105,12 +107,7 @@ onMounted(init);
 
 <style lang="postcss" scoped>
 .product {
-  @apply
-  w-full
-  h-screen
-  bg-cover
-  pt-[290px]
-  bg-[url('@/assets/bg/bg_village.png')];
+  @apply pt-[290px] w-screen h-screen;
   &_start, .product_complete {
     @apply absolute right-10 bottom-20;
   }

@@ -6,6 +6,7 @@ import InventoryGg1 from '@/components/inventory/InventoryGg1.vue';
 import InventoryGg2 from '@/components/inventory/InventoryGg2.vue';
 import Draggable from '@/components/Draggable.vue';
 import useRedirect from '@/hooks/useRedirect';
+import useBackground from '@/hooks/useBackground';
 import { gsap, fadeIn, fadeOut } from '@/utils/gsap';
 import { sleep } from '@/utils/common';
 
@@ -27,6 +28,7 @@ const product = reactive([
   { id: 4, size: 8, text: '前台職缺列表、應徵' },
 ]);
 const { goPage } = useRedirect();
+const { moveBackground } = useBackground();
 
 const totalSize = computed(() => develop.reduce((total, { size }) => total + size, 0));
 const barPercent = computed(() => totalSize.value / 20 * 100);
@@ -67,7 +69,7 @@ onMounted(init);
 </script>
 
 <template>
-  <div class="inventory">
+  <div class="inventory"  @mousemove="moveBackground">
     <div class="inventory_product list">
       <div class="title bg-primary">
         <h2>產品待辦清單</h2>
@@ -153,14 +155,12 @@ onMounted(init);
 <style lang="postcss" scoped>
 .inventory {
   @apply
-  w-full
-  h-screen
   px-14
   pt-[290px]
   flex
-  gap-20
-  bg-cover
-  bg-[url('@/assets/bg/bg_village.png')];
+  w-screen
+  h-screen
+  gap-20;
   &_product {
     @apply before:bg-primary/20 after:bg-primary/10;
     &_content {

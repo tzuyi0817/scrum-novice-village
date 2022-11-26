@@ -6,7 +6,8 @@ import RetroGg1 from '@/components/retro/RetroGg1.vue';
 import RetroGg2 from '@/components/retro/RetroGg2.vue';
 import RetroGg3 from '@/components/retro/RetroGg3.vue';
 import useRedirect from '@/hooks/useRedirect';
-import { gsap, fadeIn, fadeOut} from '@/utils/gsap';
+import useBackground from '@/hooks/useBackground';
+import { gsap, fadeIn, fadeOut } from '@/utils/gsap';
 import { sleep } from '@/utils/common';
 
 const gg = ref<InstanceType<typeof ScrumTeam2> | null>(null);
@@ -16,6 +17,7 @@ const well = ref('');
 const better = ref('');
 const illustrate = shallowRef(RetroGg1);
 const { goPage } = useRedirect();
+const { moveBackground } = useBackground();
 
 const isDisabled = computed(() => well.value !== 'correct' || better.value !== 'correct');
 
@@ -72,7 +74,7 @@ onMounted(init);
 </script>
 
 <template>
-  <div class="retro">
+  <div class="retro" @mousemove="moveBackground">
     <scrum-team2 ref="gg" :isShowContinue="isShowContinue" class="w-full z-[15]">
       <component :is="illustrate" v-show="isShowIllustrate" />
     </scrum-team2>
@@ -139,16 +141,14 @@ onMounted(init);
 <style lang="postcss" scoped>
 .retro {
   @apply
-  w-full
-  h-screen
   px-14
   pt-[310px]
   flex
   justify-center
   items-start
-  gap-28
-  bg-cover
-  bg-[url('@/assets/bg/bg_village.png')];
+  w-screen
+  h-screen
+  gap-28;
   &_question {
     @apply flex flex-col items-center gap-10;
     h2 {

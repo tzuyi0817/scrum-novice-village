@@ -1,9 +1,13 @@
 import gsap from 'gsap';
+import CSSPlugin from 'gsap/CSSPlugin';
+import CSSRulePlugin from 'gsap/CSSRulePlugin';
+
+gsap.registerPlugin(CSSPlugin, CSSRulePlugin);
 
 function fadeIn(target: string, delay = 0.5) {
   return new Promise(resolve => {
     gsap.to(target, { autoAlpha: 1 });
-    gsap.delayedCall(0.5, resolve);
+    gsap.delayedCall(delay, resolve);
   });
 }
 
@@ -51,10 +55,10 @@ function showRole(target: string, status = 'up') {
     gsap.set(light, { autoAlpha: 0, yPercent: offsetY, scaleY: 0 });
     gsap.set(target, { autoAlpha: 1 });
     timeline
-    .to(hole, { autoAlpha: 1, scale: 1, duration: 0.3 })
-    .to(light, { autoAlpha: 1, yPercent: 0, scaleY: 1.5, duration: 0.3 })
-    .to(role, { autoAlpha: 1, scaleY: 1, ease: 'elastic', duration: 1.5 }, '<')
-    .call(resolve);
+      .to(hole, { autoAlpha: 1, scale: 1, duration: 0.3 })
+      .to(light, { autoAlpha: 1, yPercent: 0, scaleY: 1.5, duration: 0.3 })
+      .to(role, { autoAlpha: 1, scaleY: 1, ease: 'elastic', duration: 1.5 }, '<')
+      .call(resolve);
   });
 }
 
@@ -67,10 +71,10 @@ function hideRole(target: string, status = 'up') {
     const offsetY = status === 'up' ? -70 : 70;
   
     timeline
-    .to(light, { autoAlpha: 0, yPercent: offsetY, scaleY: 0, duration: 0.3 })
-    .to(role, { autoAlpha: 0, scaleY: 0, duration: 0.3 }, '<')
-    .to(hole, { autoAlpha: 0, scale: 0, duration: 0.3 })
-    .call(resolve);
+      .to(light, { autoAlpha: 0, yPercent: offsetY, scaleY: 0, duration: 0.3 })
+      .to(role, { autoAlpha: 0, scaleY: 0, duration: 0.3 }, '<')
+      .to(hole, { autoAlpha: 0, scale: 0, duration: 0.3 })
+      .call(resolve);
   });
 }
 
@@ -95,8 +99,22 @@ function scaleIn(target: string) {
   });
 }
 
+function floatMove(target: string, delay = 0) {
+  gsap.to(target,  { ease: 'slowmo', yoyo: true, yPercent: 15, repeat: -1, duration: 1, delay });
+}
+
+function flash(target: string, delay = 0) {
+  const timeLine = gsap.timeline({ ease: 'rough', repeat: -1, delay, yoyo: true });
+
+  timeLine
+    .to(target, { opacity: 0.8, yPercent: 10 })
+    .to(target, { opacity: 0.5, xPercent: -10 })
+    .to(target, { opacity: 1, yPercent: 20 });
+}
+
 export {
   gsap,
+  CSSRulePlugin,
   fadeIn,
   fadeOut,
   showDialog,
@@ -106,4 +124,6 @@ export {
   slideIn,
   slideOut,
   scaleIn,
+  floatMove,
+  flash,
 };
