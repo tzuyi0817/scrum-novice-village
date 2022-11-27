@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { reactive, watch, computed } from 'vue';
+import { reactive, watch, computed, onMounted } from 'vue';
 import Draggable from '@/components/Draggable.vue';
+import { gsap } from '@/utils/gsap';
 
 interface DragItem {
   id: number;
@@ -22,7 +23,13 @@ const process = reactive([
   { id: 3, title: '短衝自省會議', text: 'Sprint Retrospective' },
 ]);
 
+function init() {
+  gsap.set('.circuit_process > img, .circuit_process > ul > .frame_team1', { autoAlpha: 0 });
+  gsap.set('.circuit_process > .frame_primary, .circuit_process_drop', { autoAlpha: 0 });
+}
+
 watch(isComplete, (isComplete) => emit('update:isDisabledComplete', !isComplete));
+onMounted(init);
 </script>
 
 <template>

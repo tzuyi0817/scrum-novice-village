@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { gsap } from '@/utils/gsap';
+
+function init() {
+  gsap.set('.circuit_sprint, .circuit_sprint_box > section', { autoAlpha: 0 });
+  gsap.set('.circuit_sprint_box > .frame_team1', { width: 400, translateX: 0, translateY: 0 });
+}
+
+onMounted(init);
+</script>
 
 <template>
   <div class="circuit_sprint">

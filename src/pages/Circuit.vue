@@ -26,10 +26,7 @@ async function init() {
   useFlagStore().setLoadingFlag(false);
   useProgressStore().setProgress(66);
   ee.value?.init();
-  gsap.set('.circuit_sprint, .circuit_sprint_box > section', { autoAlpha: 0 });
   gsap.set('.circuit_exercise, .circuit_complete', { autoAlpha: 0 });
-  gsap.set('.circuit_process > img, .circuit_process > ul > .frame_team1', { autoAlpha: 0 });
-  gsap.set('.circuit_process > .frame_primary, .circuit_process_drop', { autoAlpha: 0 });
   gsap.set('.mask, .mask_backdrop, .circuit_screen', { autoAlpha: 0 });
   await sleep(1000);
   await ee.value?.show();
@@ -44,6 +41,7 @@ async function nextIntroduce() {
   window.onclick = null;
   isShowContinue.value = false;
   illustrate.value = CircuitEe2;
+  gsap.set('.circuit_sprint_box > img, .circuit_sprint_box > .frame_team1', { autoAlpha: 1 });
   slideIn('.circuit_sprint');
   await ee.value?.continueDialog();
   await dialog('.circuit_sprint_box.daily > section', 252);
