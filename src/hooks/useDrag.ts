@@ -46,19 +46,19 @@ export default function useDrag(props: Props, areaId: string) {
   
   async function handleDragEnd(event: DragEvent) {
     if (!currentDragElement.value) return;
-    const { offsetX, offsetY } = event;
+    const { offsetX, offsetY, target } = event;
     const { clientWidth, clientHeight, parentElement, clientLeft, clientTop } = currentDragElement.value;
     const parent = parentElement?.parentElement?.parentElement;
   
-    currentDragElement.value.style.opacity = '1';
-    gsap.set(event.target, { 
+    gsap.set(currentDragElement.value, { autoAlpha: 1 });
+    gsap.set(target, { 
       x: offsetX - (clientWidth / 2) + (clientLeft * 2), 
       y: offsetY - (clientHeight / 2) + (clientTop * 2),
+      autoAlpha: 1,
     });
-    gsap.to(event.target, { x: 0, y: 0, autoAlpha: 1 });
+    gsap.to(target, { x: 0, y: 0, autoAlpha: 1 });
     await sleep();
     parent && (parent.style.zIndex = '0');
-    currentDragElement.value = null;
   }
   
   function handleDragEnter(event: DragEvent) {
@@ -86,7 +86,6 @@ export default function useDrag(props: Props, areaId: string) {
     if (!dragId.value || dragId.value === dropId) return;
     const dragIndex = draggableList.value.findIndex(id => id === dragId.value);
     const dropIndex = draggableList.value.findIndex(id => id === dropId);
-    console.log(event)
 
     await nextTick();
     swap({ a: dragIndex, b: dropIndex, from: draggableList.value });
