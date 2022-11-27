@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, onMounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import Draggable from '@/components/Draggable.vue';
 import { gsap, fadeIn } from '@/utils/gsap';
 
@@ -9,6 +9,7 @@ interface DropItem {
 }
 
 const emit = defineEmits(['update:isDisabledComplete']);
+const isDisabled = ref(true);
 const list = reactive<Array<DropItem>>([]);
 const dropLeft = reactive([
   { id: 3, text: '應徵者的線上履歷編輯器' },
@@ -19,6 +20,8 @@ const dropRight = reactive([
   { id: 2, text: '會員系統（登入、註冊、權限管理）' },
   { id: 4, text: '前台職缺列表、應徵' },
 ]);
+
+const draggableItem = computed(() => isDisabled.value ? '.disabled' : '.frame_list');
 
 async function showList() {
   await fadeIn('.product_list');
@@ -34,6 +37,7 @@ function educationEnd() {
   gsap.to('.drop1, .drop2, .drop3', { autoAlpha: 1 });
   gsap.to('.education_arrow', { autoAlpha: 0 });
   gsap.to('.education_drop', { autoAlpha: 0 });
+  isDisabled.value = false;
 }
 
 function init() {
@@ -55,6 +59,7 @@ defineExpose({ showList, education, educationEnd });
       v-model="dropLeft"
       class="product_list_drop items-end relative flex-1 pt-[5%] flex flex-col gap-10 mr-[57px] ml-[81px] z-[4]"
       :tag="'ul'"
+      :draggable="draggableItem"
     >
       <li v-for="item in dropLeft" :key="item.id" :class="`frame_list drop${item.id}`">
         {{ item.text }}
@@ -103,6 +108,7 @@ defineExpose({ showList, education, educationEnd });
       v-model="dropRight"
       class="product_list_drop items-start relative flex-1 pt-[5%] flex flex-col gap-10 mr-[57px] ml-[81px] z-[4]"
       :tag="'ul'"
+      :draggable="draggableItem"
     >
       <li v-for="item in dropRight" :key="item.id" :class="`frame_list drop${item.id}`">
         {{ item.text }}
@@ -128,7 +134,7 @@ defineExpose({ showList, education, educationEnd });
   }
   &_drop {
     li {
-      @apply odd:ml-[10%] even:mr-[10%] transition-opacity duration-500;
+      @apply odd:ml-[10%] even:mr-[10%];
     }
   }
   .education_arrow {

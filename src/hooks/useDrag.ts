@@ -1,7 +1,7 @@
 import { ref, nextTick, toRefs } from 'vue';
 import { createUuid, swap, sleep } from '@/utils/common';
 import { gsap } from '@/utils/gsap';
-import type { DragAnimationClass, ListMap } from '@/types/drag';
+import type { ListMap } from '@/types/drag';
 
 const listMap = new Map<string, ListMap>();
 const dragId = ref<string | undefined>(undefined);
@@ -11,7 +11,6 @@ const currentDropElement = ref<HTMLLIElement | null>(null);
 
 interface Props {
   modelValue: unknown[];
-  animation?: DragAnimationClass;
   disabledArea?: boolean;
 }
 
@@ -19,10 +18,7 @@ export default function useDrag(props: Props, areaId: string) {
   const draggableList = ref<Array<string>>([]);
   const { modelValue } = toRefs(props);
 
-  listMap.set(areaId, {
-    draggableList,
-    modelValue,
-  });
+  listMap.set(areaId, { draggableList, modelValue });
 
   function handleDragAreaEnter(event: DragEvent) {
     const areaId = (<HTMLLIElement>event.target).dataset.draggableArea;
@@ -33,7 +29,6 @@ export default function useDrag(props: Props, areaId: string) {
   function handleDrag(event: DragEvent) {
     const target = <HTMLLIElement>event.target;
     if (target.dataset.draggableId === currentDragElement.value?.dataset.draggableId) return;
-    target.style.opacity = '0.3';
     currentDragElement.value = target;
   }
   
@@ -42,6 +37,7 @@ export default function useDrag(props: Props, areaId: string) {
     const target = <HTMLLIElement>event.target;
     const parent = target.parentElement?.parentElement?.parentElement;
 
+    window.navigator?.vibrate(100);
     event.dataTransfer.effectAllowed = 'move';
     dragId.value = target.dataset.draggableId;
     dragAreaId.value = (<HTMLLIElement>target.parentNode).dataset.draggableArea;
@@ -49,15 +45,20 @@ export default function useDrag(props: Props, areaId: string) {
   }
   
   async function handleDragEnd(event: DragEvent) {
-    const { target, offsetX, offsetY } = event;
-    const parent = currentDragElement.value!.parentElement?.parentElement?.parentElement;
-
-
-    currentDragElement.value!.style.opacity = '1';
-    gsap.set(target, { x: offsetX - 185, y: offsetY - 35 });
-    gsap.to(target, { x: 0, y: 0, autoAlpha: 1 });
+    if (!currentDragElement.value) return;
+    const { offsetX, offsetY } = event;
+    const { clientWidth, clientHeight, parentElement, clientLeft, clientTop } = currentDragElement.value;
+    const parent = parentElement?.parentElement?.parentElement;
+  
+    currentDragElement.value.style.opacity = '1';
+    gsap.set(event.target, { 
+      x: offsetX - (clientWidth / 2) + (clientLeft * 2), 
+      y: offsetY - (clientHeight / 2) + (clientTop * 2),
+    });
+    gsap.to(event.target, { x: 0, y: 0, autoAlpha: 1 });
     await sleep();
     parent && (parent.style.zIndex = '0');
+    currentDragElement.value = null;
   }
   
   function handleDragEnter(event: DragEvent) {
@@ -72,7 +73,7 @@ export default function useDrag(props: Props, areaId: string) {
     }
     if (!dropId || target.dataset.draggableId === currentDropElement.value?.dataset.draggableId) return;
     currentDropElement.value = target;
-    move(dropId);
+    move(event, dropId);
   }
 
   function handleDragOver(event: DragEvent) {
@@ -81,18 +82,12 @@ export default function useDrag(props: Props, areaId: string) {
     event.dataTransfer.dropEffect = 'move';
   }
   
-  async function move(dropId?: string) {
+  async function move(event: DragEvent, dropId?: string) {
     if (!dragId.value || dragId.value === dropId) return;
     const dragIndex = draggableList.value.findIndex(id => id === dragId.value);
     const dropIndex = draggableList.value.findIndex(id => id === dropId);
+    console.log(event)
 
-    if (props.animation) {
-      const { moveToBefore, moveToAfter } = props.animation;
-      const addClass = dragIndex < dropIndex ? moveToAfter : moveToBefore;
-  
-      currentDropElement.value?.classList.remove(moveToBefore, moveToAfter);
-      currentDropElement.value?.classList.add(addClass);
-    }
     await nextTick();
     swap({ a: dragIndex, b: dropIndex, from: draggableList.value });
     swap({ a: dragIndex, b: dropIndex, from: props.modelValue });
@@ -142,5 +137,6 @@ export default function useDrag(props: Props, areaId: string) {
     handleDragOver,
     setDraggableList,
     draggableList,
+    listMap,
   }
 }

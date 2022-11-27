@@ -5,11 +5,6 @@ export interface DemoListItem {
   name: string;
 }
 
-export interface DragAnimationClass {
-  moveToBefore: string;
-  moveToAfter: string;
-}
-
 export interface Selector {
   ['.']: string;
   ['#']: string;

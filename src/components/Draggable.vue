@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { useSlots, defineComponent, h, useAttrs, watch, VNode } from 'vue';
+import { useSlots, defineComponent, h, useAttrs, watch, onBeforeUnmount, shallowRef } from 'vue';
+import type { VNode, Component } from 'vue';
 import { isVNodeArrayChildren, isVNode } from '@/utils/checkType';
 import { createUuid } from '@/utils/common';
 import useDrag from '@/hooks/useDrag';
-import type { DragAnimationClass, Selector } from '@/types/drag';
-
+import type { Selector } from '@/types/drag';
 
 interface Props {
   tag?: string;
   modelValue: unknown[];
-  animation?: DragAnimationClass;
-  disabledArea?: boolean
+  disabledArea?: boolean;
+  draggable?: string;
 }
 
 const slots = useSlots();
@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
   tag: 'div',
 });
 
+const SlotItems = shallowRef<Component | null>(null);
 const areaId = createUuid();
 const { 
   handleDragAreaEnter,
@@ -29,51 +30,51 @@ const {
   handleDragOver,
   setDraggableList,
   draggableList,
+  listMap,
 } = useDrag(props, areaId);
 
-const SlotItems = defineComponent({
-  render() {
-    if (!slots.default) return undefined;
-    return slots.default().map(vNode => {
-      const rawProps  = {
-        class: attrs.class && [attrs.class],
-        ondragenter: handleDragAreaEnter,
-        ['data-draggable-area']: areaId,
-      };
-      const children = isVNodeArrayChildren(vNode.children)
-        ? vNode.children?.map((child, index) => {
-          if (isVNode(child)) {
-            const draggable = isDraggable(child);
+function renderDom() {
+  return defineComponent({
+    render() {
+      if (!slots.default) return null;
+      return slots.default().map(vNode => {
+        const rawProps  = {
+          class: attrs.class && [attrs.class],
+          ondragenter: handleDragAreaEnter,
+          ['data-draggable-area']: areaId,
+        };
+        const children = isVNodeArrayChildren(vNode.children)
+          ? vNode.children?.map((child, index) => {
+            if (isVNode(child)) {
+              const draggable = isDraggable(child);
 
-            return {
-              ...child,
-              props: {
-                ...child.props,
-                draggable,
-                ondragstart: draggable && handleDragStart,
-                ondrag: draggable && handleDrag,
-                ondragend: draggable && handleDragEnd,
-                ondragenter: draggable && handleDragEnter,
-                ondragover: draggable && handleDragOver,
-                class: setChildClass(child, draggable),
-                ['data-draggable-id']: draggableList.value[index],
-              },
-            };
-          }
-          return child;
-        })
-        : vNode.children;
+              return {
+                ...child,
+                props: {
+                  ...child.props,
+                  draggable,
+                  ondragstart: draggable && handleDragStart,
+                  ondrag: draggable && handleDrag,
+                  ondragend: draggable && handleDragEnd,
+                  ondragenter: draggable && handleDragEnter,
+                  ondragover: draggable && handleDragOver,
+                  class: setChildClass(child, draggable),
+                  ['data-draggable-id']: draggableList.value[index],
+                },
+              };
+            }
+            return child;
+          })
+          : vNode.children;
 
-      return h(props.tag, rawProps, [{
-        ...vNode,
-        children,
-      }])
-    });
-  }
-});
+        return h(props.tag, rawProps, [{ ...vNode, children }]);
+      });
+    }
+  });
+}
 
 function isDraggable(child: VNode) {
-  const { draggable } = attrs;
+  const { draggable } = props;
   if (draggable === void 0 || typeof draggable !== 'string') return true;
   const config = { '.': 'class', '#': 'id' };
   const selector = draggable.slice(0, 1) as keyof Selector;
@@ -91,6 +92,12 @@ function setChildClass(child: VNode, draggable: boolean) {
 }
 
 watch(() => props.modelValue, setDraggableList, { immediate: true });
+watch(
+  () => [props.draggable, props.disabledArea, props.modelValue, props.disabledArea], 
+  () => SlotItems.value = renderDom(),
+  { immediate: true },
+);
+onBeforeUnmount(() => listMap.delete(areaId));
 </script>
 
 <template>
@@ -99,14 +106,10 @@ watch(() => props.modelValue, setDraggableList, { immediate: true });
 
 <style lang="postcss">
 .draggable_hover {
-  &:hover {
-    cursor: grab;
-  }
+  @apply hover:cursor-grab;
 }
 
 .draggable_disable {
-  &:hover {
-    cursor: no-drop
-  }
+  @apply hover:cursor-no-drop;
 }
 </style>

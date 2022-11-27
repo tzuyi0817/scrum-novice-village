@@ -14,89 +14,101 @@ Clone this repository and install dependencies by running `pnpm`(Node.js version
 
 ## Project Files
 
-<!-- ```text
+```text
 src/
 ├── assets/
-│   ├── contract/*
+│   ├── loading.gif
+│   ├── attached/*
+│   ├── bg/*
 │   ├── font/*
 │   ├── icon/*
-│   ├── img/*
-│   └── logo/*
+│   ├── logo/*
+│   └── role/*
 ├── components/
-│   ├── complete/
-│   │   └── CompleteContent.vue
-│   ├── index/
-│   │   ├── IndexArchives.vue
-│   │   ├── IndexContent.vue
-│   │   ├── IndexFiles.vue
-│   │   ├── IndexMenu.vue
-│   │   └── IndexTrash.vue
-│   ├── signature/
-│   │   ├── SignatureCanvasItem.vue
-│   │   ├── SignatureContent.vue
-│   │   ├── SignatureDrawPopup.vue
-│   │   ├── SignatureImage.vue
-│   │   ├── SignatureLiteral.vue
-│   │   ├── SignatureMask.vue
-│   │   ├── SignaturePage.vue
-│   │   ├── SignaturePopup.vue
-│   │   └── SignatureSign.vue
-│   ├── upload/
-│   │   └── UploadContent.vue
-│   ├── SignFile.vue
-│   ├── SignFiles.vue
-│   ├── SignFooter.vue
-│   ├── SignHeader.vue
-│   ├── SignIcon.vue
-│   ├── SignPopup.vue
-│   ├── SignStep.vue
-│   ├── SignStepBtn.vue
-│   └── SignToast.vue
+│   ├── circuit/
+│   │   ├── CircuitEe1.vue
+│   │   ├── CircuitEe2.vue
+│   │   ├── CircuitEe3.vue
+│   │   ├── CircuitEe4.vue
+│   │   ├── CircuitEe5.vue
+│   │   ├── CircuitProcess.vue
+│   │   └── CircuitSprint.vue
+│   ├── final/
+│   │   └── FinalDot.vue
+│   ├── inventory/
+│   │   ├── InventoryGg1.vue
+│   │   └── InventoryGg2.vue
+│   ├── plan/
+│   │   ├── PlanEe1.vue
+│   │   ├── PlanEe2.vue
+│   │   ├── PlanEe3.vue
+│   │   ├── PlanGg1.vue
+│   │   ├── PlanPo1.vue
+│   │   ├── PlanSm1.vue
+│   │   └── PlanSm2.vue
+│   ├── product/
+│   │   ├── ProductList.vue
+│   │   ├── ProductPo1.vue
+│   │   ├── ProductPo2.vue
+│   │   ├── ProductPo3.vue
+│   │   ├── ProductPo4.vue
+│   │   └── ProductPo5.vue
+│   ├── retro/
+│   │   ├── RetroGg1.vue
+│   │   ├── RetroGg2.vue
+│   │   └── RetroGg3.vue
+│   ├── Draggable.vue
+│   ├── ScrumBackground.vue
+│   ├── ScrumFooter.vue
+│   ├── ScrumLoading.vue
+│   ├── ScrumPo.vue
+│   ├── ScrumProgress.vue
+│   ├── ScrumSm.vue
+│   ├── ScrumTeam1.vue
+│   └── ScrumTeam2.vue
 └── hooks/
-│   ├── useFabric.ts
-│   ├── useRedirect.ts
-│   └── useWarnPopup.vue
+│   ├── useBackground.ts
+│   ├── useDrag.ts
+│   └── useRedirect.ts
 └── pages/
-│   ├── Complete.vue
+│   ├── Circuit.vue
+│   ├── Final.vue
 │   ├── Index.vue
-│   ├── Signature.vue
-│   └── Upload.vue
+│   ├── Inventory.vue
+│   ├── Plan.vue
+│   ├── Product.vue
+│   └── Retro.vue
 └── router/
 │   └── index.ts
 └── store/
-│   ├── image.ts
+│   ├── flag.ts
 │   ├── index.ts
-│   ├── literal.ts
-│   ├── pdf.ts
-│   └── signature.ts
+│   └── process.ts
 └── style/
 │   ├── common/
 |   │   ├── all.css
+│   │   ├── background.css
 │   │   ├── button.css
-│   │   ├── content.css
-│   │   ├── iconScale.css
-│   │   ├── input.css
-│   │   ├── layout.css
+│   │   ├── dialog.css
+│   │   ├── frame.css
+│   │   ├── frosted.css
+│   │   ├── list.css
 │   │   ├── mask.css
-│   │   ├── scrollbar.css
+│   │   ├── radio.css
+│   │   ├── role.css
 |   │   └── text.css   
 │   ├── index.css
 │   └── tailwind.css
 └── types/
-│   ├── menu.d.ts
-│   └── pdf.d.ts
+│   └── drag.d.ts
 └── utils/
 │   ├── checkType.ts
 │   ├── common.ts
-│   ├── image.ts
-│   ├── jspdf.ts
-│   ├── pdfJs.ts
-│   └── toast.ts
+│   └── gsap.ts
 ├── App.vue
-├── global.d.ts
 ├── vite-env.d.ts
 └── main.ts
-``` -->
+```
 
 ## Use Technology
 

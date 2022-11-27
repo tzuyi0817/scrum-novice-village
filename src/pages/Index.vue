@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useFlagStore } from '@/store';
+import { useFlagStore, useProgressStore } from '@/store';
 import { gsap, fadeOut, showDialog, fadeIn } from '@/utils/gsap';
 import useRedirect from '@/hooks/useRedirect';
 
@@ -51,6 +51,7 @@ function init() {
   gsap.set('.index_illustrate', { autoAlpha: 0 });
   gsap.set('.index_challenge', { autoAlpha: 0 });
   useFlagStore().setLoadingFlag(false);
+  useProgressStore().setProgress(1);
 }
 
 onMounted(init);

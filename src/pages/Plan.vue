@@ -38,7 +38,8 @@ const { moveBackground } = useBackground();
 
 async function init() {
   gsap.set('.plan_sprint, .plan_team, .plan_sprintPlan, .plan_exercise', { autoAlpha: 0 });
-  gsap.set('.plan_story_spine, .plan_story_time, .plan_story_item', { autoAlpha: 0 });
+  gsap.set('.plan_story_spine, .plan_story_temp, .plan_story_time, .plan_story_item', { autoAlpha: 0 });
+  gsap.set('.plan_story_item, .story_item1', { autoAlpha: 0 });
   hideTime();
   useFlagStore().setLoadingFlag(false);
   useProgressStore().setProgress(33);
@@ -98,12 +99,15 @@ async function nextSprintPlan() {
   sm.value?.hideDialog();
   team1.value?.visibleDialog();
   fadeIn('.plan_story_spine');
-  gsap.to('.plan_story_spine', { translateX: -350, translateY: 0 });
+  gsap.to('.plan_story_spine', { translateX: -352, translateY: 0 });
   await sm.value?.hide();
-  fadeOut('.plan_story_spine');
+  await fadeIn('.plan_story_temp');
+  gsap.set('.plan_story_spine', { autoAlpha: 0 });
   slideIn('.plan_story_item');
   isShowIllustrateEe.value = true;
   await team1.value?.continueDialog();
+  gsap.set('.story_item1', { autoAlpha: 1 });
+  gsap.set('.plan_story_temp', { autoAlpha: 0 });
   await scaleIn('.plan_story_time');
   isShowEeContinue.value = true;
   window.onclick = nextStory;
@@ -195,7 +199,8 @@ onMounted(init);
     </div>
 
     <div class="plan_story">
-      <img src="@/assets/attached/story_spine.png" alt="" width="56" class="plan_story_spine">
+      <img src="@/assets/attached/story_spine.png" alt="" width="55" class="plan_story_spine">
+      <img src="@/assets/attached/story.png" alt="" width="195" class="plan_story_temp">
       <img src="@/assets/attached/time.png" alt="" width="165" class="plan_story_time">
       <ul class="plan_story_item">
         <li v-for="num in 3" :key="num" :class="`relative story_item${num}`">
@@ -353,6 +358,9 @@ onMounted(init);
     @apply relative flex flex-col justify-center items-center gap-10;
     &_spine {
       @apply absolute top-0 left-1/2 -translate-x-[450px] -translate-y-20;
+    }
+    &_temp {
+      @apply absolute top-0 left-1/2 -translate-x-[352px];
     }
     &_time {
       @apply absolute top-0 left-1/2 -translate-x-[650px] -translate-y-20;

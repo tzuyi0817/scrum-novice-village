@@ -23,10 +23,14 @@ async function init() {
   await fadeIn('.final_title');
   await scaleFrame();
   await fadeIn('.final_frame > h2');
-  await showRole('.role_box.gg');
-  await showRole('.role_box.ee');
-  await showRole('.role_box.mm', 'down');
-  await showRole('.role_box.po');
+  showRole('.role_box.gg');
+  await sleep();
+  showRole('.role_box.ee');
+  await sleep();
+  showRole('.role_box.mm', 'down');
+  await sleep();
+  showRole('.role_box.po');
+  await sleep();
   await fadeIn('.final_dialog.gg');
   await fadeIn('.final_dialog.ee');
   await fadeIn('.final_dialog.mm');
