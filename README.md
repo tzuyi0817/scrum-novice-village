@@ -7,6 +7,7 @@ This is a `Scrum Novice Village` website.
 ## Award Record
 
 2022 THE F2E Week3 Front-End Individual Group Enterprise Award
+
 ![image](./public/2022TheF2E-W3-tzuyi.png)
 
 ## Development
