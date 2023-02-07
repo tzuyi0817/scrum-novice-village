@@ -4,6 +4,11 @@
 
 This is a `Scrum Novice Village` website.
 
+## Award Record
+
+2022 THE F2E Week3 Front-End Individual Group Enterprise Award
+![image](./public/2022TheF2E-W3-tzuyi.png)
+
 ## Development
 
 Clone this repository and install dependencies by running `pnpm`(Node.js version is 16.13.2), then:
