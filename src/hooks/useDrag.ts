@@ -1,6 +1,5 @@
 import { ref, nextTick, toRefs } from 'vue';
-import { createUuid, swap, sleep } from '@/utils/common';
-import { gsap } from '@/utils/gsap';
+import { createUuid, swap } from '@/utils/common';
 import type { ListMap } from '@/types/drag';
 
 const listMap = new Map<string, ListMap>();
@@ -44,20 +43,12 @@ export default function useDrag(props: Props, areaId: string) {
     parent && (parent.style.zIndex = '6');
   }
   
-  async function handleDragEnd(event: DragEvent) {
+  function handleDragEnd() {
     if (!currentDragElement.value) return;
-    const { offsetX, offsetY, target } = event;
-    const { clientWidth, clientHeight, parentElement, clientLeft, clientTop } = currentDragElement.value;
+    const { parentElement } = currentDragElement.value;
     const parent = parentElement?.parentElement?.parentElement;
-  
-    gsap.set(currentDragElement.value, { autoAlpha: 1 });
-    gsap.set(target, { 
-      x: offsetX - (clientWidth / 2) + (clientLeft * 2), 
-      y: offsetY - (clientHeight / 2) + (clientTop * 2),
-      autoAlpha: 1,
-    });
-    gsap.to(target, { x: 0, y: 0, autoAlpha: 1 });
-    await sleep();
+
+    currentDragElement.value.style.opacity = '1';
     parent && (parent.style.zIndex = '0');
   }
   
