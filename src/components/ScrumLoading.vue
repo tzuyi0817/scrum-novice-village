@@ -26,7 +26,7 @@ onMounted(setLoading);
       <div class="absolute top-0 left-0 bg-primary-linear rotate-[-180deg] h-40 w-full"></div>
       <img src="@/assets/loading.gif" alt=""/>
       <div class="scrum_loading_progress">
-        <div class="scrum_loading_bar"></div>
+        <div class="scrum_loading_bar" :style="{ width: `${loadingPercent}%` }"></div>
       </div>
     </div>
   </transition>
@@ -43,8 +43,7 @@ onMounted(setLoading);
     bg-gradient-270 from-[#00FFE0] to-[rgba(0,255,224,0.1)]
     h-full
     transition-all
-    duration-500
-    w-[calc(v-bind(loadingPercent)*1%)];
+    duration-500;
   }
 }
 </style>
