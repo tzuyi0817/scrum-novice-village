@@ -125,7 +125,7 @@ onMounted(init);
         </ul>
 
         <div class="inventory_develop_counter relative">
-          <div :class="['bar', totalSize > 20 ? 'bg-danger' : 'bg-role-team1']"></div>
+          <div :class="['bar', totalSize > 20 ? 'bg-danger' : 'bg-role-team1']" :style="{ width: `${barPercent}%` }"></div>
           <p class="absolute left-1/2 top-1/2 -translate-x-[calc(50%-10px)] -translate-y-1/2">
             {{ `${totalSize} / 20 (5人)` }}
           </p>
@@ -194,7 +194,6 @@ onMounted(init);
       z-[5];
       .bar {
         @apply 
-        w-[calc(v-bind(barPercent)*1%)]
         max-w-full
         h-full 
         transition-all

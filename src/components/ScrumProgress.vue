@@ -7,7 +7,7 @@ const { progress } = storeToRefs(useProgressStore());
 
 <template>
   <div class="scrum_progress">
-    <div class="scrum_progress_bar"></div>
+    <div class="scrum_progress_bar" :style="{ width: `${progress}%` }"></div>
   </div>
 </template>
 
@@ -19,8 +19,7 @@ const { progress } = storeToRefs(useProgressStore());
     bg-gradient-270 from-[#00FFE0] to-[rgba(0,255,224,0.1)]
     transition-all
     duration-500
-    h-full
-    w-[calc(v-bind(progress)*1%)];
+    h-full;
   }
 }
 </style>
