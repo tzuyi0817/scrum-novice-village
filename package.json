@@ -11,13 +11,13 @@
   "dependencies": {
     "gsap": "^3.12.5",
     "pinia": "^2.2.0",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
+    "vue": "^3.4.35",
+    "vue-router": "^4.4.2"
   },
   "devDependencies": {
-    "@types/node": "^20.14.13",
-    "@vitejs/plugin-vue": "^5.1.1",
-    "autoprefixer": "^10.4.19",
+    "@types/node": "^20.14.14",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "autoprefixer": "^10.4.20",
     "postcss": "^8.4.40",
     "postcss-import": "^16.1.0",
     "postcss-nested": "^6.2.0",
