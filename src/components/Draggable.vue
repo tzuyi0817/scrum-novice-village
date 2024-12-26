@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSlots, defineComponent, h, useAttrs, watch, onBeforeUnmount, shallowRef } from 'vue';
+import { useSlots, defineComponent, h, useAttrs, watch, onBeforeUnmount, shallowRef, type Slots } from 'vue';
 import type { VNode, Component } from 'vue';
 import { isVNodeArrayChildren, isVNode } from '@/utils/checkType';
 import { createUuid } from '@/utils/common';
@@ -13,7 +13,7 @@ interface Props {
   draggable?: string;
 }
 
-const slots = useSlots();
+const slots = useSlots() as Slots;
 const attrs = useAttrs();
 const props = withDefaults(defineProps<Props>(), {
   tag: 'div',
